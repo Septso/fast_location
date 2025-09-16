@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
+import 'src/shared/storage/hive_config.dart';
+import 'src/routes/app_routes.dart';
+import 'src/modules/initial/page/initial_page.dart';
+import 'src/modules/home/page/home_page.dart';
+import 'src/modules/history/page/history_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const FastLocationApp());
+  await initHive();
+  runApp(const MyApp());
 }
 
-class FastLocationApp extends StatelessWidget {
-  const FastLocationApp({Key? key}) : super(key: key);
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'FastLocation',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      // POR ENQUANTO: tela placeholder. Vamos trocar isso pela "initial/page" depois.
-      home: const Scaffold(
-        body: Center(child: Text('FastLocation — placeholder')),
-      ),
+      theme: ThemeData(useMaterial3: false),
+      initialRoute: AppRoutes.initial,
+      routes: {
+        AppRoutes.initial: (c) => const InitialPage(),
+        AppRoutes.home: (c) => const HomePage(),
+        AppRoutes.history: (c) => const HistoryPage(),
+      },
     );
   }
 }
